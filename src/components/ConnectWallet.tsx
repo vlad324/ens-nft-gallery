@@ -39,16 +39,6 @@ const ConnectWallet = () => {
     const [account] = await provider.listAccounts();
     setAccount(account);
   }
-  const disconnectWallet = async () => {
-    if (!web3Modal) {
-      console.log("no Web3Modal");
-      return;
-    }
-
-    await web3Modal.clearCachedProvider();
-    setProvider(undefined);
-    setAccount('');
-  }
 
   return (
     <Button className={"connect-button"}

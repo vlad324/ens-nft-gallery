@@ -24,7 +24,9 @@ const Header = () => {
           </Link>
         </Center>
         <Center textAlign="right">
-          {account ? <Center paddingRight={'5px'}>{account}</Center> : ''}
+          {account ? <Center paddingRight={'5px'}>
+            {account.substring(0, 7) + '...' + account.substring(account.length - 7)}
+          </Center> : ''}
           {account && <DisconnectWallet />}
         </Center>
       </Box>

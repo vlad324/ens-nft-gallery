@@ -1,13 +1,22 @@
 import type { NextPage } from 'next'
 import { Center, Text, VStack } from "@chakra-ui/react";
 import ConnectWallet from "../components/ConnectWallet";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CommonContext } from "../contexts/CommonContext";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
 
+  const router = useRouter();
   const { account } = useContext(CommonContext);
 
+  useEffect(() => {
+    if (!account) {
+      return;
+    }
+
+    router.push("/domains");
+  }, [account]);
   return (
     <>
       <Center>

@@ -6,6 +6,12 @@ import { CommonContextProvider } from "../contexts/CommonContext";
 import { theme } from "../themes";
 import { ToastContainer } from "react-toastify";
 import Head from "next/head";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
+  cache: new InMemoryCache(),
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -14,12 +20,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>My NFT gallery</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <CommonContextProvider>
-        <ToastContainer />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </CommonContextProvider>
+      <ApolloProvider client={client}>
+        <CommonContextProvider>
+          <ToastContainer />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </CommonContextProvider>
+      </ApolloProvider>
     </ChakraProvider>
   )
 }

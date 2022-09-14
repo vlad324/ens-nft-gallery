@@ -2,9 +2,11 @@ import { Button } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { CommonContext } from "../contexts/CommonContext";
 import Web3Modal from "web3modal";
+import { useRouter } from "next/router";
 
 const DisconnectWallet = () => {
 
+  const router = useRouter();
   const { setProvider, setAccount } = useContext(CommonContext);
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal | undefined>();
@@ -27,6 +29,7 @@ const DisconnectWallet = () => {
     await web3Modal.clearCachedProvider();
     setProvider(undefined);
     setAccount('');
+    await router.push('/');
   }
 
   return (
