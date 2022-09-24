@@ -17,6 +17,7 @@ const Home: NextPage = () => {
 
     router.push("/domains");
   }, [account]);
+
   return (
     <>
       <Center>
@@ -42,4 +43,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Home;

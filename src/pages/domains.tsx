@@ -18,21 +18,24 @@ import RegisterNewDomain from "../components/RegisterNewDomain";
 import { Domain as DomainEntity, GET_DOMAINS_QUERY, GetDomainsResult } from "../utils/thegraph";
 import { useQuery } from "@apollo/client";
 import Domain from "../components/Domain";
+import { useRouter } from "next/router";
 
 const Domains: NextPage = () => {
 
   const [selectedDomain, setSelectedDomain] = useState<DomainEntity | undefined>();
   const { account } = useContext(CommonContext);
-  const { loading, data, error } = useQuery(GET_DOMAINS_QUERY, {
+  const { data } = useQuery(GET_DOMAINS_QUERY, {
     variables: {
       accountId: account.toLowerCase()
     },
   });
   const { createSubdomain } = useContext(CommonContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
 
   const createGallerySubdomain = async (name: string, resolver: string) => {
-    await createSubdomain(name, 'gallery', resolver);
+    await createSubdomain(name, "gallery", resolver);
+    await router.push(`/name/gallery.${name}`);
   }
 
   const onNameSelect = (domain: DomainEntity) => {
@@ -67,7 +70,8 @@ const Domains: NextPage = () => {
           <ModalFooter justifyContent={"center"}>
             <Button width="50%"
                     onClick={() => createGallerySubdomain(selectedDomain!.name, selectedDomain!.resolver.address)}>Create</Button>
-            <Button width="50%" onClick={() => console.log('proceed')} marginX={3}>Proceed with selected</Button>
+            <Button width="50%" onClick={() => router.push(`/name/${selectedDomain!.name}`)} marginX={3}>Proceed with
+              selected</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
