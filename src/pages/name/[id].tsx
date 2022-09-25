@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
 import { Box, Button, Center, Grid, GridItem } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import NftImage from "../../components/NftImage";
 import { createHtml } from "../../utils/html";
 import { uploadHtml } from "../../utils/ipfsTools";
+import { CommonContext } from "../../contexts/CommonContext";
 
 type NFTData = {
   name: string,
@@ -55,6 +56,7 @@ const CreateGallery: NextPage = () => {
 
   const [nftData, setNftData] = useState<NFTData[]>([]);
   const [selectedNfts, setSelectedNfts] = useState<NFTData[]>([]);
+  const { setContentHash } = useContext(CommonContext)
 
   useEffect(() => {
     getNfts("0x91b51c173a4bdaa1a60e234fc3f705a16d228740")
@@ -66,8 +68,10 @@ const CreateGallery: NextPage = () => {
   }
 
   const createMyGallery = async () => {
-    const result = await uploadHtml(createHtml(selectedNfts));
-    console.log(result);
+    const ensName = selectedName as string;
+    const cid = await uploadHtml(createHtml(ensName, selectedNfts));
+    console.log("uploaded", cid);
+    await setContentHash("0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329", ensName, "ipfs://" + cid);
   }
 
   return (

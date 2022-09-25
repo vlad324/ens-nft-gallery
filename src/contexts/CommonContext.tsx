@@ -1,6 +1,6 @@
 import { createContext, useMemo, useState } from "react";
 import { ethers } from "ethers";
-import { labelhash, namehash } from "@ensdomains/ui";
+import { encodeContenthash, labelhash, namehash } from "@ensdomains/ui";
 import { ENS_CONTRACT_ADDRESS } from "../utils/constants";
 
 export interface Context {
@@ -8,7 +8,8 @@ export interface Context {
   setProvider: (p: ethers.providers.Web3Provider | undefined) => void,
   account: string,
   setAccount: (a: string) => void,
-  createSubdomain: (name: string, subdomainName: string, resolver: string) => void
+  createSubdomain: (name: string, subdomainName: string, resolver: string) => void,
+  setContentHash: (resolver: string, name: string, content: string) => void
 }
 
 export const CommonContext = createContext<Context>({
@@ -19,6 +20,8 @@ export const CommonContext = createContext<Context>({
   setAccount: () => {
   },
   createSubdomain: () => {
+  },
+  setContentHash: () => {
   }
 });
 
@@ -44,13 +47,33 @@ export const CommonContextProvider = ({ children }: any) => {
     await transaction.wait(1);
   };
 
+  const setContentHash = async (resolver: string, name: string, content: string) => {
+    if (!provider) {
+      return;
+    }
+
+    const contentHash = encodeContenthash(content);
+    if (contentHash.error) {
+      throw new Error(contentHash.error);
+    }
+
+    const abi = [
+      "function setContenthash(bytes32 node, bytes calldata hash) external"
+    ];
+    const resolverContract = new ethers.Contract(resolver, abi, provider.getSigner());
+    const encodedName = namehash(name);
+    const transaction = await resolverContract.setContenthash(encodedName, contentHash.encoded);
+    await transaction.wait(1);
+  }
+
   return (
     <CommonContext.Provider value={{
       provider,
       setProvider,
       account,
       setAccount,
-      createSubdomain
+      createSubdomain,
+      setContentHash
     }}>
       {children}
     </CommonContext.Provider>

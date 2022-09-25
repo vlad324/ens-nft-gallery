@@ -1,13 +1,19 @@
-const START = `
+const getStart = (name: string) => `
 <html>
 <head>
     <style>
         * {
             box-sizing: border-box;
         }
+        
+        h2.title {
+            color: black;
+            font-weight: 600;
+            padding-left: 24px;
+        }
 
         body {
-            background: slategray;
+            background: lightgray;
             margin: 0;
             padding: 3em 1em;
         }
@@ -63,10 +69,10 @@ const START = `
     </style>
 </head>
 <body>
+<h2 class="title">${name} NFG gallery</h2>
 <ul class="grid">`;
 
-const toItem = (name: string, imageUrl: string) => {
-  return `
+const toItem = (name: string, imageUrl: string) => `
     <li>
       <figure class="grid__figure">
           <img src="${imageUrl}" alt="${name}">
@@ -74,15 +80,15 @@ const toItem = (name: string, imageUrl: string) => {
       </figure>
     </li>
 `;
-};
 
 const END = `</ul>
 </body>
 </html>
 `;
 
-export const createHtml = (data: { name: string, imageUrl: string }[]): string => {
-  let result = START;
+export const createHtml = (ensName: string, data: { name: string, imageUrl: string }[]): string => {
+  const name = ensName.startsWith("gallery") ? ensName.substring(8) : ensName;
+  let result = getStart(name);
 
   data.forEach(d => {
     result += toItem(d.name, d.imageUrl);
