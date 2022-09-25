@@ -40,8 +40,14 @@ const CreateGallery: NextPage = () => {
       .then(data => setBscNfts(data));
   }, [account]);
 
-  const onNftSelect = (nft: NFTData) => {
-    setSelectedNfts([...selectedNfts, nft]);
+  const onNftClick = (nft: NFTData) => {
+    const index = selectedNfts.indexOf(nft);
+    if (index === -1) {
+      setSelectedNfts([...selectedNfts, nft]);
+    } else {
+      selectedNfts.splice(index, 1);
+      setSelectedNfts(selectedNfts);
+    }
   }
 
   const createMyGallery = async () => {
@@ -65,7 +71,7 @@ const CreateGallery: NextPage = () => {
           mainnetNfts.map((nft, index) => {
             return (
               <GridItem width="100%" key={index} zIndex={1}>
-                <NftImage name={nft.name} imageUrl={nft.imageUrl} onClick={() => onNftSelect(nft)} />
+                <NftImage name={nft.name} imageUrl={nft.imageUrl} onClick={() => onNftClick(nft)} />
               </GridItem>
             )
           })
@@ -74,7 +80,7 @@ const CreateGallery: NextPage = () => {
           polygonNfts.map((nft, index) => {
             return (
               <GridItem width="100%" key={index} zIndex={1}>
-                <NftImage name={nft.name} imageUrl={nft.imageUrl} onClick={() => onNftSelect(nft)} />
+                <NftImage name={nft.name} imageUrl={nft.imageUrl} onClick={() => onNftClick(nft)} />
               </GridItem>
             )
           })
@@ -83,7 +89,7 @@ const CreateGallery: NextPage = () => {
           bscNfts.map((nft, index) => {
             return (
               <GridItem width="100%" key={index} zIndex={1}>
-                <NftImage name={nft.name} imageUrl={nft.imageUrl} onClick={() => onNftSelect(nft)} />
+                <NftImage name={nft.name} imageUrl={nft.imageUrl} onClick={() => onNftClick(nft)} />
               </GridItem>
             )
           })
