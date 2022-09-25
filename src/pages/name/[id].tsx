@@ -11,6 +11,7 @@ import { NFTData } from "../../utils/nft";
 import { toast } from "react-toastify";
 import { getCovalentData } from "../../utils/covalent";
 import { getNFTPortData } from '../../utils/nftport';
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateGallery: NextPage = () => {
 
