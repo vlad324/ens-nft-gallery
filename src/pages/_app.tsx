@@ -9,7 +9,7 @@ import Head from "next/head";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: 'https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli',
+  uri: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
   cache: new InMemoryCache(),
 });
 
@@ -32,4 +32,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp
+export default MyApp;

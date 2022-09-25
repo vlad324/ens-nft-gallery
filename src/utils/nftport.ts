@@ -1,4 +1,5 @@
 import { NFTData } from "./nft";
+import { formatIpfsUrl } from "./ipfsTools";
 
 type NFTSResponse = {
   contract_address: string,
@@ -40,6 +41,6 @@ const getNFTDetails = async (contractAddress: string, tokenId: string, chain: st
     name: json.nft.metadata.name,
     contractAddress: contractAddress,
     tokenId: tokenId,
-    imageUrl: json.nft.metadata.image
+    imageUrl: formatIpfsUrl(json.nft.metadata.image)
   } as NFTData;
 }

@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { CommonContext } from "../contexts/CommonContext";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
-import { GOERLI_CHAIN_ID } from "../utils/constants";
+import { MAINNET_CHAIN_ID } from "../utils/constants";
 import { switchNetwork } from "../utils/eth";
 
 const ConnectWallet = () => {
@@ -30,8 +30,8 @@ const ConnectWallet = () => {
     const instance = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(instance);
     const network = await provider.getNetwork();
-    if (network.chainId != GOERLI_CHAIN_ID) {
-      await switchNetwork(provider, GOERLI_CHAIN_ID);
+    if (network.chainId != MAINNET_CHAIN_ID) {
+      await switchNetwork(provider, MAINNET_CHAIN_ID);
     }
 
     setProvider(new ethers.providers.Web3Provider(instance));

@@ -11,6 +11,7 @@ import { NFTData } from "../../utils/nft";
 import { toast } from "react-toastify";
 import { getCovalentData } from "../../utils/covalent";
 import { getNFTPortData } from '../../utils/nftport';
+import { ENS_PUBLIC_RESOLVER_ADDRESS } from "../../utils/constants";
 import "react-toastify/dist/ReactToastify.css";
 
 const CreateGallery: NextPage = () => {
@@ -56,7 +57,7 @@ const CreateGallery: NextPage = () => {
       const ensName = selectedName as string;
       const cid = await uploadHtml(createHtml(ensName, selectedNfts));
       console.log("uploaded", cid);
-      await setContentHash("0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329", ensName, "ipfs://" + cid);
+      await setContentHash(ENS_PUBLIC_RESOLVER_ADDRESS, ensName, "ipfs://" + cid);
     }, {
       pending: 'Transaction is in progress',
       success: 'Gallery successfully created',
