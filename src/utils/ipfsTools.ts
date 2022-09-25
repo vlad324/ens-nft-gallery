@@ -8,3 +8,11 @@ export const uploadHtml = (data: string) => {
 
   return nftStorage.storeBlob(fileEntity);
 }
+
+export const formatIpfsUrl = (url: string) => {
+  if (url.startsWith("ipfs://")) {
+    return "https://ipfs.io/ipfs/" + url.substring(7);
+  }
+
+  return url;
+}

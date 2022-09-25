@@ -8,8 +8,9 @@ import { uploadHtml } from "../../utils/ipfsTools";
 import { CommonContext } from "../../contexts/CommonContext";
 import { getMainnetNfts } from "../../utils/quicknode";
 import { NFTData } from "../../utils/nft";
-import { getNFTPortData } from "../../utils/nftport";
 import { toast } from "react-toastify";
+import { getCovalentData } from "../../utils/covalent";
+import { getNFTPortData } from '../../utils/nftport';
 
 const CreateGallery: NextPage = () => {
 
@@ -19,6 +20,7 @@ const CreateGallery: NextPage = () => {
   const [creationInProgress, setCreationInProgress] = useState<boolean>(false);
   const [mainnetNfts, setMainnetNfts] = useState<NFTData[]>([]);
   const [polygonNfts, setPolygonNfts] = useState<NFTData[]>([]);
+  const [bscNfts, setBscNfts] = useState<NFTData[]>([]);
   const [selectedNfts, setSelectedNfts] = useState<NFTData[]>([]);
   const { account, setContentHash } = useContext(CommonContext);
 
@@ -33,6 +35,9 @@ const CreateGallery: NextPage = () => {
 
     getNFTPortData(account, "polygon")
       .then(data => setPolygonNfts(data));
+
+    getCovalentData(account, "56")
+      .then(data => setBscNfts(data));
   }, [account]);
 
   const onNftSelect = (nft: NFTData) => {
@@ -67,6 +72,15 @@ const CreateGallery: NextPage = () => {
         }
         {
           polygonNfts.map((nft, index) => {
+            return (
+              <GridItem width="100%" key={index} zIndex={1}>
+                <NftImage name={nft.name} imageUrl={nft.imageUrl} onClick={() => onNftSelect(nft)} />
+              </GridItem>
+            )
+          })
+        }
+        {
+          bscNfts.map((nft, index) => {
             return (
               <GridItem width="100%" key={index} zIndex={1}>
                 <NftImage name={nft.name} imageUrl={nft.imageUrl} onClick={() => onNftSelect(nft)} />
