@@ -10,9 +10,13 @@ export const uploadHtml = (data: string) => {
 }
 
 export const formatIpfsUrl = (url: string) => {
+  if (url.startsWith("https://") || url.startsWith("data:")) {
+    return url;
+  }
+
   if (url.startsWith("ipfs://")) {
     return "https://ipfs.io/ipfs/" + url.substring(7);
   }
 
-  return url;
+  return "https://ipfs.io/ipfs/" + url;
 }
