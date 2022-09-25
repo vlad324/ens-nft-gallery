@@ -69,7 +69,7 @@ const getStart = (name: string) => `
     </style>
 </head>
 <body>
-<h2 class="title">${name} NFG gallery</h2>
+<h2 class="title">${name} NFT gallery</h2>
 <ul class="grid">`;
 
 const toItem = (name: string, imageUrl: string) => `

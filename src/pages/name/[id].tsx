@@ -29,7 +29,6 @@ const CreateGallery: NextPage = () => {
       return;
     }
 
-    // 0x94Ec09f4bd183Be53DF90CE7239150963B081B09
     getMainnetNfts(account)
       .then(data => setMainnetNfts(data));
 

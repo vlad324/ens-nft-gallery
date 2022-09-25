@@ -86,7 +86,7 @@ const Domains: NextPage = () => {
               fontSize='2xl'
               fontWeight='bold'
             >
-              Or register a new one via{' '}
+              or register a new one via{' '}
               <Link
                 href='https://app.ens.domains/'
                 color='blue.700'

@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <Head>
-        <title>My NFT gallery</title>
+        <title>MyNFTGallery</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ApolloProvider client={client}>
