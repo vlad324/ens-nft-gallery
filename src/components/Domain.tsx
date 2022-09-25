@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/react";
 
 const Domain = (prop: { name: string, onClick: () => void }) => {
   return (
-    <Button className={"connect-button"}
+    <Button className={"custom-button"}
             background={"white"}
             textAlign="center"
             width="100%"

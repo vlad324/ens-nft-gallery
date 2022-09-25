@@ -17,8 +17,11 @@ const NftImage = (prop: Props) => {
   }
 
   return (
-    <Box borderRadius="16px" borderColor={selected ? "#00661d" : "#e2e8f0"} height="100%"
-         borderWidth={selected ? "2px" : "1px"}
+    <Box borderRadius="16px"
+         borderColor={selected ? "green.500" : "#e2e8f0"}
+         height="100%"
+         borderWidth={selected ? "4px" : "0px"}
+         bgColor="white"
          onClick={select}>
       <VStack alignItems="flex-start" height="100%">
         <Box width="100%">

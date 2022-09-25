@@ -33,8 +33,8 @@ const DisconnectWallet = () => {
   }
 
   return (
-    <Button className={"connect-button"}
-            background={'white'}
+    <Button className={"custom-button"}
+            background={"white"}
             onClick={disconnectWallet}
             textAlign="center"
     >

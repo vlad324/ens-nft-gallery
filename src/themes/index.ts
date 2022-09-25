@@ -1,6 +1,6 @@
 import { extendTheme } from '@chakra-ui/react'
 
-const mainColor = '#00661D';
+const mainColor = '#000000';
 
 export const theme = extendTheme({
   config: {
@@ -10,7 +10,7 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: 'White',
+        bg: '#CECECE',
       },
       'html, body, #__next': {
         height: "100%",
@@ -18,7 +18,7 @@ export const theme = extendTheme({
       'main, main > div': {
         height: "80%",
       },
-      ".connect-button": {
+      ".custom-button": {
         fontWeight: 'bold',
         textTransform: 'uppercase',
         borderRadius: '2px',
@@ -27,7 +27,7 @@ export const theme = extendTheme({
         color: mainColor,
         background: '#FFF'
       }
-    }
+    },
   },
   components: {},
 })

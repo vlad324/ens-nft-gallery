@@ -19,7 +19,6 @@ const Home: NextPage = () => {
   }, [account]);
 
   return (
-    <>
       <Center>
         <VStack>
           <Text fontSize='5xl'
@@ -39,7 +38,6 @@ const Home: NextPage = () => {
           {!account && <ConnectWallet />}
         </VStack>
       </Center>
-    </>
   )
 }
 

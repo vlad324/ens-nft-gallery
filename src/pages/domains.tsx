@@ -5,16 +5,17 @@ import {
   Center,
   Grid,
   GridItem,
+  Link,
   Modal,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { CommonContext } from "../contexts/CommonContext";
-import RegisterNewDomain from "../components/RegisterNewDomain";
 import { Domain as DomainEntity, GET_DOMAINS_QUERY, GetDomainsResult } from "../utils/thegraph";
 import { useQuery } from "@apollo/client";
 import Domain from "../components/Domain";
@@ -38,15 +39,27 @@ const Domains: NextPage = () => {
     await router.push(`/name/gallery.${name}`);
   }
 
-  const onNameSelect = (domain: DomainEntity) => {
+  const onNameSelect = async (domain: DomainEntity) => {
     setSelectedDomain(domain);
-    onOpen();
+    if (domain.name.startsWith("gallery.")) {
+      await router.push(`/name/${domain.name}`);
+    } else {
+      onOpen();
+    }
   }
 
   return (
     <>
       <Center>
         <Box width="100vw">
+          <Center>
+            <Text
+              fontSize='2xl'
+              fontWeight='bold'
+            >
+              Select ENS that you would like to turn into gallery
+            </Text>
+          </Center>
           <Grid templateColumns="repeat(4, 1fr)" gap={9} px={40} py={10} mx={0}>
             {
               data && (data as GetDomainsResult).domains.map(domain => {
@@ -57,21 +70,45 @@ const Domains: NextPage = () => {
                 )
               })
             }
-            <GridItem width="100%" zIndex={1}>
-              <RegisterNewDomain />
-            </GridItem>
           </Grid>
+          <Center>
+            <Text
+              fontSize='2xl'
+              fontWeight='bold'
+            >
+              Or register a new one via{' '}
+              <Link
+                href='https://app.ens.domains/'
+                color='blue.700'
+                isExternal
+              >
+                ENS app
+              </Link>
+            </Text>
+          </Center>
         </Box>
       </Center>
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal onClose={onClose} isOpen={isOpen} isCentered size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{`Create gallery.${selectedDomain?.name} sub-domain?`}</ModalHeader>
+          <ModalHeader>Create <Text as="b">gallery.{selectedDomain?.name}</Text> sub-domain?</ModalHeader>
           <ModalFooter justifyContent={"center"}>
-            <Button width="50%"
-                    onClick={() => createGallerySubdomain(selectedDomain!.name, selectedDomain!.resolver.address)}>Create</Button>
-            <Button width="50%" onClick={() => router.push(`/name/${selectedDomain!.name}`)} marginX={3}>Proceed with
-              selected</Button>
+            <Button
+              className="custom-button"
+              background="white"
+              width="50%"
+              onClick={() => createGallerySubdomain(selectedDomain!.name, selectedDomain!.resolver.address)}
+            >
+              Create
+            </Button>
+            <Button
+              className="custom-button"
+              background="white"
+              width="50%"
+              onClick={() => router.push(`/name/${selectedDomain!.name}`)} marginX={3}
+            >
+              Proceed with selected
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

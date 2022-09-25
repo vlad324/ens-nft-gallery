@@ -87,9 +87,15 @@ const CreateGallery: NextPage = () => {
           })
         }
       </Grid>
-      <Box width="100%" paddingY={5} onClick={createMyGallery}>
+      <Box width="100%" paddingY={5}>
         <Center>
-          <Button>Create</Button>
+          <Button
+            className={"custom-button"}
+            background={"white"}
+            onClick={createMyGallery}
+          >
+            Create
+          </Button>
         </Center>
       </Box>
     </Box>
