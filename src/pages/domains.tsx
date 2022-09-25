@@ -20,10 +20,13 @@ import { Domain as DomainEntity, GET_DOMAINS_QUERY, GetDomainsResult } from "../
 import { useQuery } from "@apollo/client";
 import Domain from "../components/Domain";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Domains: NextPage = () => {
 
   const [selectedDomain, setSelectedDomain] = useState<DomainEntity | undefined>();
+  const [creationInProgress, setCreationInProgress] = useState<boolean>(false);
   const { account } = useContext(CommonContext);
   const { data } = useQuery(GET_DOMAINS_QUERY, {
     variables: {
@@ -35,8 +38,15 @@ const Domains: NextPage = () => {
   const router = useRouter();
 
   const createGallerySubdomain = async (name: string, resolver: string) => {
-    await createSubdomain(name, "gallery", resolver);
-    await router.push(`/name/gallery.${name}`);
+    setCreationInProgress(true);
+    await toast.promise(async () => {
+      await createSubdomain(name, "gallery", resolver);
+      await router.push(`/name/gallery.${name}`);
+    }, {
+      pending: 'Transaction is in progress',
+      success: 'Subdomain successfully created',
+      error: 'Transaction failed'
+    }).finally(() => setCreationInProgress(false));
   }
 
   const onNameSelect = async (domain: DomainEntity) => {
@@ -97,6 +107,8 @@ const Domains: NextPage = () => {
               className="custom-button"
               background="white"
               width="50%"
+              isDisabled={creationInProgress}
+              isLoading={creationInProgress}
               onClick={() => createGallerySubdomain(selectedDomain!.name, selectedDomain!.resolver.address)}
             >
               Create
@@ -105,6 +117,7 @@ const Domains: NextPage = () => {
               className="custom-button"
               background="white"
               width="50%"
+              isDisabled={creationInProgress}
               onClick={() => router.push(`/name/${selectedDomain!.name}`)} marginX={3}
             >
               Proceed with selected

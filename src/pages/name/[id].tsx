@@ -9,12 +9,14 @@ import { CommonContext } from "../../contexts/CommonContext";
 import { getMainnetNfts } from "../../utils/quicknode";
 import { NFTData } from "../../utils/nft";
 import { getNFTPortData } from "../../utils/nftport";
+import { toast } from "react-toastify";
 
 const CreateGallery: NextPage = () => {
 
   const router = useRouter();
   const selectedName = router.query.id;
 
+  const [creationInProgress, setCreationInProgress] = useState<boolean>(false);
   const [mainnetNfts, setMainnetNfts] = useState<NFTData[]>([]);
   const [polygonNfts, setPolygonNfts] = useState<NFTData[]>([]);
   const [selectedNfts, setSelectedNfts] = useState<NFTData[]>([]);
@@ -38,10 +40,17 @@ const CreateGallery: NextPage = () => {
   }
 
   const createMyGallery = async () => {
-    const ensName = selectedName as string;
-    const cid = await uploadHtml(createHtml(ensName, selectedNfts));
-    console.log("uploaded", cid);
-    await setContentHash("0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329", ensName, "ipfs://" + cid);
+    setCreationInProgress(true);
+    await toast.promise(async () => {
+      const ensName = selectedName as string;
+      const cid = await uploadHtml(createHtml(ensName, selectedNfts));
+      console.log("uploaded", cid);
+      await setContentHash("0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329", ensName, "ipfs://" + cid);
+    }, {
+      pending: 'Transaction is in progress',
+      success: 'Gallery successfully created',
+      error: 'Transaction failed'
+    }).finally(() => setCreationInProgress(false));
   }
 
   return (
@@ -72,6 +81,8 @@ const CreateGallery: NextPage = () => {
             className={"custom-button"}
             background={"white"}
             onClick={createMyGallery}
+            isLoading={creationInProgress}
+            isDisabled={creationInProgress}
           >
             Create
           </Button>
